@@ -1,13 +1,27 @@
+import { defineAsyncComponent } from 'vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
-import CoachDetail from './pages/coaches/CoachDetail.vue';
+// import CoachDetail from './pages/coaches/CoachDetail.vue';
+// import CoachRegistration from './pages/coaches/CoachRegistration.vue';
 import CoachesList from './pages/coaches/CoachesList.vue';
-import CoachRegistation from './pages/coaches/CoachRegistration.vue';
-import ContactCoach from './pages/requests/ContactCoach.vue';
-import RequestsReceived from './pages/requests/RequestsReceived.vue';
-import UserAuth from './pages/auth/UserAuth.vue';
+// import ContactCoach from './pages/requests/ContactCoach.vue';
+// import RequestsReceived from './pages/requests/RequestsReceived.vue';
+// import UserAuth from './pages/auth/UserAuth.vue';
 import NotFound from './pages/NotFound.vue';
 import store from './store/index.js';
+
+const CoachDetail = defineAsyncComponent(() => import('./pages/coaches/CoachDetail.vue'));
+const CoachRegistration = defineAsyncComponent(() => import('./pages/coaches/CoachRegistration.vue'));
+const ContactCoach = defineAsyncComponent(() => import('./pages/requests/ContactCoach.vue'));
+const RequestsReceived = defineAsyncComponent(() => import('./pages/requests/RequestsReceived.vue'));
+const UserAuth = defineAsyncComponent(() => import('./pages/auth/UserAuth.vue'));
+
+// it turns out, that it's not recommended to use async components for routing (you may use them to condiitonally load and fetch component code when working with v-if etc though)
+// for routing, simply change the sintax from
+// const coachDetail = defineAsyncComponent(() => import('../../'))
+// to
+// const coachDetail = import('./../')
+
 
 const router = createRouter({
   history: createWebHistory(),
@@ -22,7 +36,7 @@ const router = createRouter({
         { path: 'contact', component: ContactCoach } // /coaches/c1/contact
       ]
     },
-    { path: '/register', component: CoachRegistation, meta: {requiresAuth: true} },
+    { path: '/register', component: CoachRegistration, meta: {requiresAuth: true} },
     { path: '/requests', component: RequestsReceived, meta: {requiresAuth: true} },
     { path: '/auth', component: UserAuth, meta: {requiresUnauth: true} },
     { path: '/:notFound(.*)', component: NotFound }
