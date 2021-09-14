@@ -1,0 +1,31 @@
+
+
+// Cambios importantes de vue 2 a vue 3
+
+* No existen mas los filters, de hecho se han removido de vue 3, aunque existen algunas opciones para seguir con ellos con la opcion
+  - app.config.globalProperties.$filters
+  - visita https://v3.vuejs.org/guide/migration/filters.html#global-filters
+
+* No existen los buses de eventos en Vue 3. En vue 2 podias crear instancias para manejar eventos en buses separados.
+  - Por ejemplo
+    const eventBus = new Vue()
+    eventBus.$on('custom-event', () => {
+      console.log('Custom event triggered!')
+    })
+    eventBus.$emit('custom-event')
+
+  - Ahora no existe mas soporte en Vue3, pero puedes usar las librerias de mitt ó tiny-emitter
+    - por ejemplo
+          // eventBus.js
+      import emitter from 'tiny-emitter/instance'
+
+      export default {
+        $on: (...args) => emitter.on(...args),
+        $once: (...args) => emitter.once(...args),
+        $off: (...args) => emitter.off(...args),
+        $emit: (...args) => emitter.emit(...args)
+      }
+
+
+
+para mas informacion visita https://v3.vuejs.org/guide/migration/introduction.html#global-api
