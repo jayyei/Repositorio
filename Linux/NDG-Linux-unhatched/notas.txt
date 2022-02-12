@@ -1,0 +1,308 @@
+Como hacer un comando
+
+-- command [...opciones] [...argumentos]
+
+	* las opciones pueden ir juntas o separadas
+	-lr = -l -r
+
+-- pwd -> imprime un directorio (print work directory) en teoria imprime la ruta absoluta
+ 
+-- cd [opciones] [ruta] -> cambia la ruta actual (change directory)
+
+-- .. (dos puntos) indica un directorio superior -> ../home
+
+-- . (un punto) indica el directorio actual
+
+-- ~ (curvita) el directorio principa del usuario actual esta representado por el caracter ~
+
+-- ls [opciones] [archivos]  -> listado de archivos
+
+-- ls -l  -> listado de archivos lista larga
+
+Tipo de archivo
+
+drwxr-x--- 2 root   adm    4096 Dec 20  2017 apache2
+
+	* el primer campo contiene 10 caracteres el primer caracter indica el tipo de archivo y los otros 9
+	  especifican permisos
+	
+Símbolo	 	Tipo de archivo	Descripción
+d		directorio		Un archivo usado para contener otros archivos.
+-		archivo ordinario	Incluye archivos leíbles, imágenes, archivos binarios, y archivos comprimidos.
+l		enlaces simbólicos	Apunta a otro archivo.
+s		socket			Permite la comunicación entre procesos.
+p		tubería (pipe)		Permite la comunicación entre procesos.
+b		archivo bloque		Usado para comunicaciones con el equipo (hardware).
+c		archivo carácter	Usado para comunicaciones con el equipo (hardware).
+
+Permisos
+
+°drwxr-xr-x° 2 root   root   4096 Apr 11  2014 upstart
+Los permisos indican cómo determinados usuarios pueden acceder a un archivo. Siga leyendo para obtener más información sobre los permisos.
+
+Propietario del archivo
+-rw-r----- 1 °syslog° adm     106 Oct  2 19:57 kern.log
+El usuario syslog posee este archivo. Cada vez que se crea un archivo, la propiedad se asigna automáticamente al usuario que lo creó.
+
+Grupo propietario del archivo
+-rw-rw-r-- 1 root  °utmp° 292584 Oct  2 19:57 lastlog
+Indica qué grupo posee este archivo.
+
+Tamaño del archivo
+-rw-r----- 1 syslog adm  ° 19573° Oct  2 22:57 syslog
+
+Sello horario o de tiempo
+drwxr-xr-x 2 root   root   4096 °Dec  7  2017° fsck
+Indica la fecha y hora en que el contenido del archivo se modificó por última vez.
+
+Nombre del archivo
+-rw-r--r-- 1 root   root  47816 Dec  7  2017 °bootstrap.log°
+El campo final contiene el nombre del archivo o directorio.
+
+ls -lt -> ordenara los archivos por su sello de tiempo
+
+ls -S -> ordenara los archivos por tamaño
+
+ls -r -> invertirá el orden de cualquier tipo de ordenación
+
+
+
+EL comando "su"
+
+-- su [OPCIONES] NOMBRE-DE-USUARIO -> le permite actuar temporalmente como un usuario diferente, lo hace creando un nuevo Shell, si no se especifica el usuario se abre una nueva Shell como usuario root
+
+su -
+su -l
+Su -login
+
+exit -> le permite cerrar sesión de un Shell
+
+
+El comando "sudo"
+
+-- sudo [OPCIONES] COMANDO -> le permite a un usuario ejecutar un comando como otro usuario sin tener que crear un nuevo shell  
+
+
+PERMISOS
+
+Propietario
+-rw-r--r-- 1 sysadmin sysadmin 647 Dec 20  2017 hello.sh
+El primer grupo se refiere al usuario que posee el archivo. Si su cuenta actual es la propietaria del archivo, se usará el primer grupo de permisos y los demás permisos no tendrán efecto.
+El usuario propietario del archivo y a quién se refieren estos permisos se puede determinar mediante el campo que muestra el usuario propietario
+
+Grupo
+-rw-r--r-- 1 sysadmin sysadmin 647 Dec 20  2017 hello.sh
+El segundo conjunto se refiere al grupo que posee el archivo. Si su cuenta actual no es la del propietario del archivo pero es miembro del grupo que posee el archivo, se aplicarán los permisos del grupo y los demás permisos no tendrán efecto.
+El grupo propietario para este archivo puede ser determinado en el campo grupo propietario:
+
+
+-rw-r--r-- 1 sysadmin sysadmin 647 Dec 20  2017 hello.sh
+Otros
+-rw-r--r-- 1 sysadmin sysadmin 647 Dec 20  2017 hello.sh
+El último grupo es para todos los demás, cualquiera a quien los dos primeros conjuntos de permisos no sean aplicables. Si no es el usuario que posee el archivo o un miembro del grupo que posee el archivo, se le aplicará el tercer conjunto de permisos.
+
+Tipos de permisos
+Un archivo o directorio puede presentar tres permisos diferentes: leer, escribir y ejecutar. La forma en que se aplican estos permisos difiere entre archivos y directorios
+
+
+Permisos de los archivos
+-- chmod -> se utiliza para cambiar los permisos de un archivo o directorio. Sólo el usuario raíz o el usuario propietario del archivo puede cambiar los permisos de un archivo
+
+Metodo simbolico y metodo octal
+
+Metodo simbolico
+-- chmod [<CONJUNTO DE PERMISOS><ACCIÓN><PERMISOS>]... ARCHIVO
+
+Conjunto de permisos
+Símbolo	Significado
+u	Usuario: El usuario propietario del archivo.
+g	Grupo: El grupo propietario del archivo.
+o	Otros: Cualquier otro que no sea el usuario propietario o un miembro del grupo propietario.
+a	Todos: Se refiere al usuario, grupo, y todos los demás.
+
+Acción
+Símbolo	Significado
++	Añadir permiso, si es necesario
+=	Especificar el permiso exacto
+-	Eliminar el permiso, si es necesario
+
+Permisos
+Símbolo	Significado
+r	leer (read)
+w	escribir (write)
+x	ejecutar (execute)
+
+Propietario del archivo
+chown [OPCIONES] [PROPIETARIO] ARCHIVO
+
+Cambiar el usuario propietario requiere acceso administrativo. Un usuario ordinario no puede utilizar este comando para cambiar el usuario propietario de un archivo, ni tan solo para otorgar propiedad de uno de sus propios archivos a otro usuario. Sin embargo, el comando chown permite cambiar el grupo propietario, lo cual puede ser realizado por el usuario root o el propietario del archivo.
+
+
+Visualización de archivos
+-- cat [OPCIONES] [ARCHIVO] (concatenar) se recomienda en archivos pequeños
+-- head y tail para ver primera o ultima mitad del archivo
+
+Copiar
+-- cp [OPCIONES] ORIGEN DESTINO
+Para copiar un archivo, es necesario tener permiso de ejecución para acceder al directorio donde se encuentra el archivo y permiso de lectura para el archivo que se está copiando.
+También es necesario tener permiso de escritura y ejecución en el directorio al que se está copiando el archivo
+
+Copiar a nivel de bits
+-- dd [OPCIONES] OPERANDO
+- ejemplo dd if=/dev/zero of=/tmp/swapex bs=1M count=50
+
+Argumento	Descripción
+if	  	Archivo de entrada (Input File): El archivo de entrada que se va a leer.
+
+
+of		Archivo de salida (Output File): El archivo de salida que se va a escribir.
+
+
+bs	 	Tamaño de bloque (Block Size): El tamaño de bloque que se va a utilizar. De forma predeterminada, el valor se presenta en 			bytes. Utilice los sufijos siguientes para especificar otras unidades: K, M, G y T para kilobytes, megabytes, gigabytes y terabytes respectivamente.
+
+
+count		Recuento: El número de bloques que se van a leer desde el archivo de entrada.
+
+Mover Archivos
+-- mv ORIGEN DESTINO
+Mover un archivo requiere tener permisos de escritura y ejecución tanto en los directorios de origen como de destino.
+
+Eliminar archivos
+rm [OPCIONES] ARCHIVO
+Para eliminar un directorio utilice una opción recursiva, por ejemplo -r o -R (elimina todos los archivos y todos los subdirectorios
+Para eliminar un archivo dentro de un directorio, el usuario debe tener permiso de escritura y ejecución en ese directorio
+
+Filtrado de entradas
+grep [OPCIONES] PATRÓN [ARCHIVO]
+
+Expresiones regulares
+Caracteres Básicos Regex	Significado
+.				Cualquier carácter individual
+[ ]				Cualquier carácter especificado
+[^]				Cualquier carácter que no es el carácter especificado
+*				Cero o más del carácter anterior
+^				Si es el primer carácter del patrón, el patrón deberá estar al principio de la línea para coincidir, si no es así se tratará como un ^ literal.
+$				Si es el último carácter del patrón, el patrón deberá estar al final de la línea para coincidir, si no es así se tratará como un $ literal.
+
+Caracteres Básicos Regex	Significado
++				Uno o más del patrón anterior
+?				El patrón es opcional
+{ }				Especificar mínimo, máximo, o coincidencias exactas en el patrón anterior
+|				Alternancia - el “o” lógico
+( )				Se usa para crear grupos
+
+
+Apagar
+-- shutdown [OPCIONES] HORA [MENSAJE] (requiere acceso administrativo)
+
+Configuracion de redes
+-- ifconfig [OPCIONES]
+-- ping -c 4
+
+Visualización de procesos
+-- ps [OPCIONES] 
+-- ps -e -> procesos del sistema
+-- ps -ef -> procesos del sistema detallado
+
+PID: El identificador para el proceso (process identifier), el cual es único para cada proceso. Esta información es útil cuando necesitamos controlar los procesos según su número identificador (ID).
+
+TTY: El nombre de la terminal en la que está funcionando el proceso. Esta información es útil para distinguir entre diferentes procesos que tienen el mismo nombre.
+
+TIME: La cantidad total de tiempo de procesado que utiliza un proceso determinado. Normalmente, los usuarios normales no utilizan esta información.
+
+CMD: El comando que inició el proceso.
+
+
+Instalación de paquetes
+-- sudo apt-get update
+-- apt-cache search [keyword] -> busca palabras clave dentro de los paquetes
+
+Instalar paquete
+sudo apt-get install [package]
+
+Actualización de paquetes
+-- apt-get update -> actualiza la cache de todos los paquetes disponibles
+-- apt-get upgrade  -> actualiza los paquetes y sus dependencias
+
+Purgar suprime todos los archivos del paquete
+Eliminar suprimir todos los archivos del paquete excepto los archivos de configuración
+
+Eliminar un paquete:
+-- apt-get remove [package]
+
+Purgar un paquete
+-- apt-get purge [package]
+
+Actualización de contraseñas de usuario
+-- passwd [OPCIONES] [USUARIO]
+Los usuarios solo pueden cambiar sus propias contraseñas, mientras que el usuario root puede actualizar la contraseña para cualquier usuario.
+
+Ver información de la contraseña
+-- passwd -S usuario
+
+Editor de texto
+Inicialmente el programa empieza en modo comando cada que se presione Esc te lleva al modo de comando
+
+Modo de movimiento
+Movimientos	Resultado
+h		Un carácter a la izquierda
+j		A la línea siguiente
+k		A la línea anterior
+l		Un carácter a la derecha
+w		Una palabra adelante
+b		Una palabra hacia atrás
+^		Al principio de la línea
+$		Al final de la línea		
+
+
+Modo de acción
+Estándar	Vi	Significado
+cortar		d	eliminar (delete)
+copiar		y	sacar (yank)
+pegar		P | p	poner (put)	
+
+Eliminar
+Acción	Resultado
+dd	Elimina la línea actual
+3dd	Elimina las tres líneas siguientes
+dw	Elimina la palabra actual
+d3w	Elimina las tres palabras siguientes
+d4h	Elimina cuatro caracteres hacia la izquierda
+
+Cambiar
+Acción	Resultado
+cc	Cambiar la línea actual
+cw	Cambiar la palabra actual
+c3w	Cambiar las tres palabras siguientess
+c5h	Cambiar cinco caracteres hacia la izquierda
+
+Sacar
+Acción	Resultado
+yy	Sacar la línea actual
+3yy	Sacar las tres líneas siguientes
+yw	Sacar la palabra actual
+y$	Sacar el fragmento desde el cursor hasta el final de la línea actual
+
+Poner
+Acción	Resultado
+p	Poner o pegar después del cursor
+P	Poner antes del cursor
+
+Insertar
+Entrada	Función
+a	Comenzar a insertar justo después del cursor
+A	Comenzar a insertar al final de la línea
+I	Comenzar a insertar justo antes del cursor
+I	Comenzar a insertar al principio de la línea
+o	Comenzar a insertar en una nueva línea después del cursor
+O	Comenzar a insertar en una nueva línea antes del cursor
+
+Ex
+Entrada	Función
+:w	Escribir el documento actual al sistema de archivos
+:w 	nombre_del_archivo	Guardar una copia del documento actual bajo el nombre nombre_del_archivo
+:w!	Forzar escritura al documento actual
+:1	Ir a la primera línea (o otra línea indicada por el número)
+:e 	nombre_del_archivo	Abrir nombre_del_archivo
+:q	Suspender (salir) (quit) si no se han realizado cambios al documento
+:q!	Suspender sin guardar los cambios realizados al documento
