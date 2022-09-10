@@ -13,7 +13,7 @@ Como hacer un comando
 
 -- . (un punto) indica el directorio actual
 
--- ~ (curvita) el directorio principa del usuario actual esta representado por el caracter ~
+-- ~ (curvita) el directorio principal del usuario actual esta representado por el caracter ~
 
 -- ls [opciones] [archivos]  -> listado de archivos
 
